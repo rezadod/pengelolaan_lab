@@ -36,7 +36,6 @@ class HomeController extends Controller
     //     return view('home',compact('inventaris'));
     // }
     public function tambah_inventaris(Request $request)
-
     {
         $nama=$request->nama_barang;
         $jumlah=$request->jumlah;
@@ -54,13 +53,14 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+
     public function kelola_lab()
     {
         $lab = DB::table('lab')->SELECT('*')->GET();
         return view('lab',compact('lab'));
     }
-    public function tambah_lab(Request $request)
 
+    public function tambah_lab(Request $request)
     {
         $nama=$request->nama_lab;
         
@@ -70,6 +70,7 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+
     public function peminjaman()
     {  
         $user_peminjam = Auth::user()->id;
@@ -98,6 +99,39 @@ class HomeController extends Controller
         // dd($peminjaman);
         return view('peminjaman',compact('nama_barang','lab','peminjaman'));
     }
+
+    public function ajukan_peminjaman(Request $request)
+    {
+        $date_now = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        $lab = $request->lab;
+        $id_barang = $request->barang;
+        $jumlah = $request->jumlah;
+        $peminjam = Auth::user()->id;
+        // INSERT DATA PEMINJAMAN
+        DB::table('peminjaman')
+            ->insert([
+                'tgl_pinjam' => $date_now,
+                'jumlah_pinjam' => $jumlah,
+                'lab' => $lab,
+                'nama_barang' => $id_barang,
+                'peminjam' => $peminjam,
+                'status' => 1
+            ]);
+        // UPDATE JUMLAH BARANG
+        $jml_terpinjam_now = DB::table('inventaris')->select('jumlah_yang_dipinjam', 'nama_barang')->where('id', $id_barang)->first();
+        $jml_dipinjam_new = $jml_terpinjam_now->jumlah_yang_dipinjam + $jumlah;
+        DB::table('inventaris')
+            ->where('id', $id_barang)
+            ->update([
+                'jumlah_yang_dipinjam' => $jml_dipinjam_new
+            ]);
+        // get lab
+        $n_lab = DB::table('lab')->select('nama_lab')->where('id', $lab)->first();
+        $pesan = $jml_terpinjam_now->nama_barang. ' Berhasil Dipinjam Oleh ' . $n_lab->nama_lab . ' Sejumlah = ' . $jumlah . ' buah';
+        return redirect()->back()->with('tambah', $pesan);
+        // dd($request);
+    }
+
     public function pengembalian()
     {  
         $user_peminjam = Auth::user()->id;
