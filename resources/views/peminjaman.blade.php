@@ -22,32 +22,37 @@
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <form action="{{url('tambah_lab')}}" method="POST">
+                                    <form action="{{url('ajukan_peminjaman')}}" method="POST">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Data Pegawai</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman Barang</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             @csrf
-                                            <label for="">Nama Barang</label>
-                                            <select name="" id="" class="form-control">
+                                            <label for="ajukan_peminjaman">Nama Barang</label>
+                                            <select name="barang" id="barang" class="form-control">
+                                                <option value="">--PILIH BARANG--</option>
                                                 @foreach ($nama_barang as $br)
-                                                    <option value="{{$br->nama_barang}}">
+                                                    <option value="{{$br->id}}">
                                                         {{$br->nama_barang}}
                                                     </option>
                                                 @endforeach
                                             </select>
                                             <br>
-                                            <label for="">Laboratorium</label>
-                                            <select name="" id="" class="form-control">
+                                            <label for="lab">Laboratorium</label>
+                                            <select name="lab" id="lab" class="form-control">
+                                                <option value="">--PILIH LABORATORIUM--</option>
                                                 @foreach ($lab as $br)
-                                                    <option value="{{$br->nama_lab}}">
+                                                    <option value="{{$br->id}}">
                                                         {{$br->nama_lab}}
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <br>
+                                            <label for="jumlah">Jumlah Barang Dipinjam</label>
+                                            <input type="number" class="form-control" name="jumlah" id="jumlah">
                                             <br>
                                             
                                         </div>
