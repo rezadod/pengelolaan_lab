@@ -70,7 +70,7 @@
                                     <th scope="col">Nama Lab</th>
                                     <th scope="col">Jumlah Barang Dipinjam</th>
                                     <th scope="col">Tanggal Peminjaman</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Tanggal Pengembalian</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,9 +84,7 @@
                                         <td>{{ $pj->nama_lab }}</td>
                                         <td>{{ $pj->jumlah_pinjam }}</td>
                                         <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                        <td>
-                                            <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')" class="btn btn-info text-white"><i class="fas fa-undo-alt"></i> Kembalikan</a>
-                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalikan)->format('d-m-Y')}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -99,15 +97,13 @@
     </section>
 </div>
 <script>
-    function kembalikan(id_peminjaman, nama_barang, id_barang, jumlah_pinjam){
+    function kembalikan(id_peminjaman, nama_barang){
             // console.log(nama_barang);
             var token = '{{ csrf_token() }}';
             var my_url = "{{url('/kembalikan_barang')}}";
             var formData = {
                 '_token': token,
-                'jumlah_pinjam': jumlah_pinjam,
-                'id_peminjaman': id_peminjaman,
-                'id_barang': id_barang
+                'id_peminjaman': id_peminjaman
             };
             if(confirm('Apakah Kamu Yakin Akan Mengembalikan ' +nama_barang+ ' Ke Pengurus Inventaris ?')){
             console.log(nama_barang);

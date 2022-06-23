@@ -25,11 +25,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function kelola_inventaris()
     {
         $inventaris = DB::table('inventaris')->SELECT('*')->GET();
         return view('home',compact('inventaris'));
     }
+    // public function index()
+    // {
+    //     $inventaris = DB::table('inventaris')->SELECT('*')->GET();
+    //     return view('home',compact('inventaris'));
+    // }
     public function tambah_inventaris(Request $request)
 
     {
@@ -49,7 +54,7 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
-     public function kelola_lab()
+    public function kelola_lab()
     {
         $lab = DB::table('lab')->SELECT('*')->GET();
         return view('lab',compact('lab'));
@@ -65,11 +70,86 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
-     public function peminjaman()
+    public function peminjaman()
     {  
-        $nama_barang = DB::table('inventaris')->SELECT('nama_barang','jumlah_barang')->GET();
-        $lab = DB::table('lab')->SELECT('nama_lab')->GET();
-        $peminjaman = DB::table('peminjaman')->SELECT('*')->GET();
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'e.deskripsi'
+                        )
+                        ->WHERE('a.peminjam', $user_peminjam)
+                        ->WHERE('a.status', 1)
+                        ->GET();
+        // dd($peminjaman);
         return view('peminjaman',compact('nama_barang','lab','peminjaman'));
+    }
+    public function pengembalian()
+    {  
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalikan',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'e.deskripsi'
+                        )
+                        ->WHERE('a.peminjam', $user_peminjam)
+                        ->WHERE('a.status', 2)
+                        ->GET();
+        // dd($peminjaman);
+        return view('pengembalian',compact('nama_barang','lab','peminjaman'));
+    }
+
+    public function kembalikan_barang(Request $request)
+    {
+        $date_now = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        $id_peminjaman = $request->id_peminjaman;
+        $jumlah_pinjam = $request->jumlah_pinjam;
+        $id_barang = $request->id_barang;
+
+        $jml_terpinjam = DB::table('inventaris')->select('jumlah_yang_dipinjam')->where('id', $id_barang)->first();
+        $jml_dikembalikan = $jml_terpinjam->jumlah_yang_dipinjam - $jumlah_pinjam;
+        // UPDATE JUMLAH BARANG
+        
+        DB::table('inventaris')
+            ->where('id', $id_barang)
+            ->update([
+                'jumlah_yang_dipinjam' => $jml_dikembalikan
+            ]);
+        // UPDATE STATUS PINJAMAN
+        DB::table('peminjaman')
+            ->where('id', $id_peminjaman)
+            ->update([
+                'tgl_pengembalikan' => $date_now,
+                'status' => 2
+            ]);
+        
     }
 }
