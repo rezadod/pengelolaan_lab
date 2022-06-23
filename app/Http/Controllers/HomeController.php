@@ -129,7 +129,6 @@ class HomeController extends Controller
         $n_lab = DB::table('lab')->select('nama_lab')->where('id', $lab)->first();
         $pesan = $jml_terpinjam_now->nama_barang. ' Berhasil Dipinjam Oleh ' . $n_lab->nama_lab . ' Sejumlah = ' . $jumlah . ' buah';
         return redirect()->back()->with('tambah', $pesan);
-        // dd($request);
     }
 
     public function pengembalian()
