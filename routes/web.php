@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/peminjaman', [HomeController::class, 'peminjaman'])->name('peminjaman');
     Route::post('/ajukan_peminjaman', [HomeController::class, 'ajukan_peminjaman'])->name('ajukan_peminjaman');
     Route::get('/pengembalian', [HomeController::class, 'pengembalian'])->name('pengembalian');
+    Route::get('/report_lab', [HomeController::class, 'report_lab'])->name('report_lab');
+    Route::get('/report_data_user', [HomeController::class, 'report_data_user'])->name('report_data_user');
 
     Route::post('kembalikan_barang', [HomeController::class, 'kembalikan_barang'])->name('kembalikan_barang');
 });

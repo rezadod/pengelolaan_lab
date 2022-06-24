@@ -109,8 +109,8 @@
                             <ul class="dropdown-menu">
                                 <li class="active"><a class="nav-link" href="index-0.html">Laporan Peminjaman</a>
                                 </li>
-                                <li class=""><a class="nav-link" href="index.html">Data Lab</a>
-                                <li class=""><a class="nav-link" href="index.html">Data User</a>
+                                <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
+                                <li class=<?php if(Request::is('report_data_user')){ echo 'active'; }else{ echo '';} ?>><a class="nav-link" href="{{url('report_data_user')}}">Data User</a>
                                 </li>
                             </ul>
                         </li>
