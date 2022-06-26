@@ -54,7 +54,6 @@
                                 <tr class="table-success">
                                     <th scope="col">No</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Jumlah Barang</th>
                                     <th scope="col">Terkahir Dirubah</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -68,7 +67,9 @@
                                     <td>{{$no++}}</td>
                                     <td>{{$in->nama_lab}}</td>
                                     <td>{{$in->created_at}}</td>
-
+                                    <td>
+                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -80,4 +81,30 @@
         </div>
     </section>
 </div>
+<script>
+    function hapus(id_lab, nama_lab){
+            // console.log(nama_lab);
+            var token = '{{ csrf_token() }}';
+            var my_url = "{{url('/delete_lab')}}";
+            var formData = {
+                '_token': token,
+                'id_lab': id_lab
+            };
+            if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_lab+ ' ?')){
+            console.log(nama_lab);
+                $.ajax({
+                    method: 'POST',
+                    url: my_url,
+                    data: formData,
+                    success: function(resp){
+                        alert(nama_lab + ' Berhasil Dihapus!');
+                        location.reload();
+                    },
+                    error: function (resp){
+                        console.log(resp);
+                    }
+                });
+            }
+    }
+</script>
 @endsection

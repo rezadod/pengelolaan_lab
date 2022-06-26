@@ -25,16 +25,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    // LAB DAN INVENTARIS
     public function kelola_inventaris()
     {
         $inventaris = DB::table('inventaris')->SELECT('*')->GET();
         return view('home',compact('inventaris'));
     }
-    // public function index()
-    // {
-    //     $inventaris = DB::table('inventaris')->SELECT('*')->GET();
-    //     return view('home',compact('inventaris'));
-    // }
+    
     public function tambah_inventaris(Request $request)
     {
         $nama=$request->nama_barang;
@@ -53,6 +51,14 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+    
+    public function delete_inventaris(Request $request)
+    {
+        $id_barang = $request->id_barang;
+        DB::table('inventaris')->where('id', $id_barang)->delete();
+        // return redirect()->back()->with('hapus','Data Berhasil Dihapus');
+        return redirect(url('kelola_inventaris'))->with('hapus','Data Berhasil Dihapus');
+    }
 
     public function kelola_lab()
     {
@@ -70,7 +76,15 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+    
+    public function delete_lab(Request $request)
+    {
+        $id_lab = $request->id_lab;
+        DB::table('lab')->where('id', $id_lab)->delete();
+        return redirect()->back()->with('hapus','Data Berhasil Dihapus');
+    }
 
+    // PEMINJAMAN DAN PENGEMBALIAN
     public function peminjaman()
     {  
         $user_peminjam = Auth::user()->id;
@@ -91,11 +105,18 @@ class HomeController extends Controller
                             'b.nama_barang',
                             'c.nama_lab',
                             'd.name',
+                            'a.status',
                             'e.deskripsi'
-                        )
-                        ->WHERE('a.peminjam', $user_peminjam)
-                        ->WHERE('a.status', 1)
-                        ->GET();
+                        );
+                        if(Auth::user()->role == 3){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1,2]);
+                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1]);
+                        }
+                        
+                        $peminjaman = $peminjaman->GET();
         // dd($peminjaman);
         return view('peminjaman',compact('nama_barang','lab','peminjaman'));
     }
@@ -147,14 +168,16 @@ class HomeController extends Controller
                             'a.id as id_peminjaman',
                             'a.jumlah_pinjam',
                             'a.tgl_pinjam',
-                            'a.tgl_pengembalian',
+                            'a.tgl_pengembalikan',
+                            'b.id as id_barang',
                             'b.nama_barang',
                             'c.nama_lab',
                             'd.name',
+                            'a.status',
                             'e.deskripsi'
                         )
                         ->WHERE('a.peminjam', $user_peminjam)
-                        ->WHERE('a.status', 2)
+                        ->WHEREIN('a.status', [3,4])
                         ->GET();
         // dd($peminjaman);
         return view('pengembalian',compact('nama_barang','lab','peminjaman'));
@@ -180,6 +203,30 @@ class HomeController extends Controller
         DB::table('peminjaman')
             ->where('id', $id_peminjaman)
             ->update([
+                'tgl_pengembalikan' => $date_now,
+                'status' => 3
+            ]);
+        
+    }
+
+    public function verifikasi_peminjaman(Request $request)
+    {
+        $id_peminjaman = $request->id_peminjaman;
+        DB::table('peminjaman')
+            ->where('id', $id_peminjaman)
+            ->update([
+                'status' => 2
+            ]);
+    }
+
+    public function verifikasi_pengembalian(Request $request)
+    {
+        $id_peminjaman = $request->id_peminjaman;
+        DB::table('peminjaman')
+            ->where('id', $id_peminjaman)
+            ->update([
+                'status' => 4
+            ]);
                 'tgl_pengembalian' => $date_now,
                 'status' => 2
             ]);

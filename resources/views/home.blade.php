@@ -18,6 +18,11 @@
                             {{ session('tambah') }}
                         </div>
                         @endif
+                        @if (session('hapus'))
+                        <div class="alert alert-danger">
+                            {{ session('hapus') }}
+                        </div>
+                        @endif
                         <a href="#" class="btn btn-success btn-sm mb-4 p-1 text-white" data-toggle="modal"
                             data-target="#inputModal">Tambah Barang </a>
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
@@ -76,6 +81,9 @@
                                     <td>
                                         <img src="{{asset('foto/'.$in->foto)}}" alt="" width="200" class="img-fluid" >
                                     </td>
+                                    <td>
+                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                    </td>
 
                                 </tr>
                                 @endforeach
@@ -88,4 +96,30 @@
         </div>
     </section>
 </div>
+<script>
+    function hapus(id_barang, nama_barang){
+            // console.log(nama_barang);
+            var token = '{{ csrf_token() }}';
+            var my_url = "{{url('/delete_inventaris')}}";
+            var formData = {
+                '_token': token,
+                'id_barang': id_barang
+            };
+            if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_barang+ ' ?')){
+            console.log(nama_barang);
+                $.ajax({
+                    method: 'POST',
+                    url: my_url,
+                    data: formData,
+                    success: function(resp){
+                        alert(nama_barang + ' Berhasil Dihapus!');
+                        location.reload();
+                    },
+                    error: function (resp){
+                        console.log(resp);
+                    }
+                });
+            }
+    }
+</script>
 @endsection
