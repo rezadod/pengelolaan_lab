@@ -227,5 +227,21 @@ class HomeController extends Controller
             ->update([
                 'status' => 4
             ]);
+                'tgl_pengembalian' => $date_now,
+                'status' => 2
+            ]);
+        
+    }
+     public function report_lab()
+    {
+        $lab = DB::table('lab')->SELECT('*')->GET();
+        return view('report_lab',compact('lab'));
+    }
+   
+
+      public function report_data_user()
+    {
+        $user = DB::table('users')->SELECT('*')->GET();
+        return view('report_data_user',compact('user'));
     }
 }
