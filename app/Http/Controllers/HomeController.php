@@ -221,25 +221,25 @@ class HomeController extends Controller
 
     public function verifikasi_pengembalian(Request $request)
     {
+        $date_now = Carbon::now('Asia/jakarta');
         $id_peminjaman = $request->id_peminjaman;
         DB::table('peminjaman')
             ->where('id', $id_peminjaman)
             ->update([
-                'status' => 4
-            ]);
+                'status' => 4,
                 'tgl_pengembalian' => $date_now,
                 'status' => 2
             ]);
         
     }
-     public function report_lab()
+    public function report_lab()
     {
         $lab = DB::table('lab')->SELECT('*')->GET();
         return view('report_lab',compact('lab'));
     }
-   
+    
 
-      public function report_data_user()
+    public function report_data_user()
     {
         $user = DB::table('users')->SELECT('*')->GET();
         return view('report_data_user',compact('user'));
