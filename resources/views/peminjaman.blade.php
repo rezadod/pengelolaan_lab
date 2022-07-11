@@ -30,7 +30,7 @@
                                 <div class="modal-content">
                                     <form action="{{url('ajukan_peminjaman')}}" method="POST">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman Barang</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman Barang GG</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -65,7 +65,8 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <button id="tombol_input" hidden type="submit"></button>
+                                            <button type="button" onclick="cek_barang()" class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
                                 </div>
@@ -100,8 +101,6 @@
                                         <td>
                                             @if($pj->status == 1 && Auth::user()->role == 2)
                                             <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')" class="btn btn-warning text-white"><i class="fas fa-check-circle"></i> Verifikasi</a>
-                                            @elseif($pj->status == 2  && Auth::user()->role == 3)
-                                            <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')" class="btn btn-info text-white"><i class="fas fa-undo-alt"></i> Kembalikan</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -116,6 +115,35 @@
     </section>
 </div>
 <script>
+    function cek_barang(){
+            // console.log(nama_barang);
+            var jumlah_pinjam = $('#jumlah').val();
+            var id_barang = $('#barang').val();
+            var token = '{{ csrf_token() }}';
+            var my_url = "{{url('/cek_barang')}}";
+            var formData = {
+                '_token': token,
+                'jumlah_pinjam': jumlah_pinjam,
+                'id_barang': id_barang
+            };
+                $.ajax({
+                    method: 'POST',
+                    url: my_url,
+                    data: formData,
+                    success: function(resp){
+                        if(resp.flag_status == 1){
+                            alert(resp.message);
+                        }
+                        else {
+                            alert(resp.message);
+                            $('#tombol_input').click();
+                        }
+                    },
+                    error: function (resp){
+                        // console.log(resp);
+                    }
+                });
+    }
     function verifikasi(id_peminjaman, nama_barang, id_barang, jumlah_pinjam, nama_lab){
             // console.log(nama_barang);
             var token = '{{ csrf_token() }}';
