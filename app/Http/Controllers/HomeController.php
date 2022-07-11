@@ -109,7 +109,7 @@ class HomeController extends Controller
                             'e.deskripsi'
                         );
                         if(Auth::user()->role == 3){
-                            $peminjaman = $peminjaman->WHEREIN('a.status', [1,2]);
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1]);
                             $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
                         }
                         if(Auth::user()->role == 2){
@@ -119,6 +119,31 @@ class HomeController extends Controller
                         $peminjaman = $peminjaman->GET();
         // dd($peminjaman);
         return view('peminjaman',compact('nama_barang','lab','peminjaman'));
+    }
+
+    public function cek_barang(Request $request)
+    {
+        $id_barang = $request->id_barang;
+        $jumlah_pinjam = $request->jumlah_pinjam;
+        // UPDATE JUMLAH BARANG
+        $jml_terpinjam_now = DB::table('inventaris')->select('jumlah_yang_dipinjam', 'nama_barang', 'jumlah_barang')->where('id', $id_barang)->first();
+        $jml_dipinjam_new = $jml_terpinjam_now->jumlah_yang_dipinjam + $jumlah_pinjam;
+
+        if($jml_dipinjam_new > $jml_terpinjam_now->jumlah_barang){
+            $data = [
+                'status' => false,
+                'flag_status' => 1,
+                'message' => "JUMLAH PEMINJAMAN MELEBIHI STOK BARANG !!!"
+            ];
+        } 
+        else {
+            $data = [
+                'status' => true,
+                'flag_status' => 2,
+                'message' => "PEMINJAMAN BERHASIL DIAJUKAN !!!"
+            ];
+        }
+        return response()->json($data,200);
     }
 
     public function ajukan_peminjaman(Request $request)
@@ -168,7 +193,7 @@ class HomeController extends Controller
                             'a.id as id_peminjaman',
                             'a.jumlah_pinjam',
                             'a.tgl_pinjam',
-                            'a.tgl_pengembalikan',
+                            'a.tgl_pengembalian',
                             'b.id as id_barang',
                             'b.nama_barang',
                             'c.nama_lab',
@@ -177,7 +202,7 @@ class HomeController extends Controller
                             'e.deskripsi'
                         )
                         ->WHERE('a.peminjam', $user_peminjam)
-                        ->WHEREIN('a.status', [3,4])
+                        ->WHEREIN('a.status', [2,3,4])
                         ->GET();
         // dd($peminjaman);
         return view('pengembalian',compact('nama_barang','lab','peminjaman'));
@@ -187,23 +212,12 @@ class HomeController extends Controller
     {
         $date_now = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
         $id_peminjaman = $request->id_peminjaman;
-        $jumlah_pinjam = $request->jumlah_pinjam;
-        $id_barang = $request->id_barang;
-
-        $jml_terpinjam = DB::table('inventaris')->select('jumlah_yang_dipinjam')->where('id', $id_barang)->first();
-        $jml_dikembalikan = $jml_terpinjam->jumlah_yang_dipinjam - $jumlah_pinjam;
-        // UPDATE JUMLAH BARANG
         
-        DB::table('inventaris')
-            ->where('id', $id_barang)
-            ->update([
-                'jumlah_yang_dipinjam' => $jml_dikembalikan
-            ]);
         // UPDATE STATUS PINJAMAN
         DB::table('peminjaman')
             ->where('id', $id_peminjaman)
             ->update([
-                'tgl_pengembalikan' => $date_now,
+                'tgl_pengembalian' => $date_now,
                 'status' => 3
             ]);
         
@@ -223,12 +237,23 @@ class HomeController extends Controller
     {
         $date_now = Carbon::now('Asia/jakarta');
         $id_peminjaman = $request->id_peminjaman;
+        $jumlah_pinjam = $request->jumlah_pinjam;
+        $id_barang = $request->id_barang;
+
+        $jml_terpinjam = DB::table('inventaris')->select('jumlah_yang_dipinjam')->where('id', $id_barang)->first();
+        $jml_dikembalikan = $jml_terpinjam->jumlah_yang_dipinjam - $jumlah_pinjam;
+        // UPDATE JUMLAH BARANG
+        
+        DB::table('inventaris')
+            ->where('id', $id_barang)
+            ->update([
+                'jumlah_yang_dipinjam' => $jml_dikembalikan
+            ]);
         DB::table('peminjaman')
             ->where('id', $id_peminjaman)
             ->update([
                 'status' => 4,
                 'tgl_pengembalian' => $date_now,
-                'status' => 2
             ]);
         
     }

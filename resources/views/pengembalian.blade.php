@@ -88,11 +88,13 @@
                                         <td>{{ $pj->nama_lab }}</td>
                                         <td>{{ $pj->jumlah_pinjam }}</td>
                                         <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalikan)->format('d-m-Y')}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
                                         <td>{{ $pj->deskripsi }}</td>
                                         <td>
                                             @if($pj->status == 3 && Auth::user()->role == 2)
                                             <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')" class="btn btn-warning text-white"><i class="fas fa-check-circle"></i> Verifikasi</a>
+                                            @elseif($pj->status == 2  && Auth::user()->role == 3)
+                                            <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')" class="btn btn-info text-white"><i class="fas fa-undo-alt"></i> Kembalikan</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -133,13 +135,15 @@
                 });
             }
     }
-    function kembalikan(id_peminjaman, nama_barang){
+    function kembalikan(id_peminjaman, nama_barang, id_barang, jumlah_pinjam){
             // console.log(nama_barang);
             var token = '{{ csrf_token() }}';
             var my_url = "{{url('/kembalikan_barang')}}";
             var formData = {
                 '_token': token,
-                'id_peminjaman': id_peminjaman
+                'jumlah_pinjam': jumlah_pinjam,
+                'id_peminjaman': id_peminjaman,
+                'id_barang': id_barang
             };
             if(confirm('Apakah Kamu Yakin Akan Mengembalikan ' +nama_barang+ ' Ke Pengurus Inventaris ?')){
             console.log(nama_barang);
