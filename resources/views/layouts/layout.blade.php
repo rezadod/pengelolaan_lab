@@ -74,9 +74,9 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Peminjaman Inventaris</a>
+                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Verifikasi Peminjaman</a>
                                 </li>
-                                <li class="<?php if(Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
+                                <li class="<?php if(Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/pengembalian') }}">Verifikasi Pengembalian</a>
                                 </li>
                             </ul>
                         </li>
@@ -93,7 +93,7 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Peminjaman Inventaris</a>
+                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Pengajuan Inventaris</a>
                                 </li>
                                 <li class="<?php if(Request::is('pengembalian')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
                                 </li>
@@ -107,7 +107,7 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="index-0.html">Laporan Peminjaman</a>
+                                <li class="active"><a class="nav-link" href="index-0.html">Laporan `Peminjaman`</a>
                                 </li>
                                 <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
                                 <li class=<?php if(Request::is('report_data_user')){ echo 'active'; }else{ echo '';} ?>><a class="nav-link" href="{{url('report_data_user')}}">Data User</a>
