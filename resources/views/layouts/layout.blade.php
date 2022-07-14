@@ -71,12 +71,12 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
                         <li
-                            class="nav-item dropdown <?php if(Request::is('peminjaman') || Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>">
+                            class="nav-item dropdown <?php if(Request::is('peminjaman') || Request::is('pengembalian') || Request::is('report_peminjaman') ){ echo 'active'; }else{ echo '';} ?>">
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
-                                        class="nav-link" href="{{ url('/') }}">Peminjaman Inventaris</a>
+                                <li class="<?php if(Request::is('report_peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{ url('/report_peminjaman') }}">Peminjaman Inventaris</a>
                                 </li>
                                 <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{ url('/peminjaman') }}">Verifikasi Peminjaman</a>
@@ -109,8 +109,8 @@
                                 <li class="<?php if(Request::is('pengembalian')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
                                 </li>
-                                <li class="<?php if(Request::is('') ){ echo 'active'; }else{ echo '';} ?>">
-                                    <a class="nav-link" href="{{ url('/') }}">Riwayat Peminjaman</a>
+                                <li class="<?php if(Request::is('riwayat_peminjaman') ){ echo 'active'; }else{ echo '';} ?>">
+                                    <a class="nav-link" href="{{ url('/riwayat_peminjaman') }}">Riwayat Peminjaman</a>
                                 </li>
                             </ul>
                         </li>
