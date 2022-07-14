@@ -24,13 +24,13 @@ Route::group(['middleware' => ['auth']], function () {
     // Root
     Route::get('/', function () {
         if(Auth::user()->role == 2){
-            return redirect('peminjaman');
+            return redirect('report_peminjaman');
         }
         else if(Auth::user()->role == 3){
             return redirect('peminjaman');
         }
         else {
-            return redirect('home');
+            return redirect('report_peminjaman');
         }
     });
     Route::get('/home', function () {
@@ -65,6 +65,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/report_lab', [HomeController::class, 'report_lab'])->name('report_lab');
     Route::get('/report_data_user', [HomeController::class, 'report_data_user'])->name('report_data_user');
     Route::post('kembalikan_barang', [HomeController::class, 'kembalikan_barang'])->name('kembalikan_barang');
+
+    Route::get('/riwayat_peminjaman', [HomeController::class, 'riwayat_peminjaman'])->name('riwayat_peminjaman');
+    Route::get('/report_peminjaman', [HomeController::class, 'report_peminjaman'])->name('report_peminjaman');
 
     // ADMIN
     Route::post('/verifikasi_peminjaman', [HomeController::class, 'verifikasi_peminjaman'])->name('verifikasi_peminjaman');

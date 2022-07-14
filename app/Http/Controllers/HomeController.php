@@ -202,7 +202,7 @@ class HomeController extends Controller
                             'e.deskripsi'
                         )
                         ->WHERE('a.peminjam', $user_peminjam)
-                        ->WHEREIN('a.status', [2,3,4])
+                        ->WHEREIN('a.status', [2,3])
                         ->GET();
         // dd($peminjaman);
         return view('pengembalian',compact('nama_barang','lab','peminjaman'));
@@ -268,5 +268,72 @@ class HomeController extends Controller
     {
         $user = DB::table('users')->SELECT('*')->GET();
         return view('report_data_user',compact('user'));
+    }
+
+    public function riwayat_peminjaman()
+    {  
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalian',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        )
+                        ->WHERE('a.peminjam', $user_peminjam)
+                        ->WHEREIN('a.status', [4])
+                        ->GET();
+        // dd($peminjaman);
+        return view('riwayat_peminjaman',compact('nama_barang','lab','peminjaman'));
+    }
+
+    public function report_peminjaman()
+    {  
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalian',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        );
+                        if(Auth::user()->role == 1){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [4]);
+                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1,2,3]);
+                        }
+                        $peminjaman = $peminjaman->GET();
+        // dd($peminjaman);
+        return view('report_peminjaman',compact('nama_barang','lab','peminjaman'));
     }
 }
