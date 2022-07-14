@@ -62,28 +62,35 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">Sarpras</a>
+                        <a href="{{ url('/') }}">Sarpras</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">SP</a>
+                        <a href="{{ url('/') }}">SP</a>
                     </div>
                     @if (Auth::user()->role==2)
                     <ul class="sidebar-menu">
                         <li class="menu-header">Dashboard</li>
-                        <li class="nav-item dropdown <?php if(Request::is('peminjaman') || Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>">
+                        <li
+                            class="nav-item dropdown <?php if(Request::is('peminjaman') || Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>">
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Peminjaman Inventaris</a>
+                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{ url('/peminjaman') }}">Verifikasi Peminjaman</a>
                                 </li>
-                                <li class="<?php if(Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
+                                <li class="<?php if(Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>">
+                                    <a class="nav-link" href="{{ url('/pengembalian') }}">Verifikasi Pengembalian</a>
                                 </li>
+
                             </ul>
                         </li>
 
-                        <li class="<?php if(Request::is('kelola_inventaris') ){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/kelola_inventaris') }}"><i class="fas fa-boxes"></i>
+                        <li class="<?php if(Request::is('kelola_inventaris') ){ echo 'active'; }else{ echo '';} ?>"><a
+                                class="nav-link" href="{{ url('/kelola_inventaris') }}"><i class="fas fa-boxes"></i>
                                 <span>Kelola Inventaris</span></a></li>
-                        <li class="<?php if(Request::is('kelola_lab') ){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/kelola_lab') }}"><i class="fas fa-person-booth"></i> <span>Kelola
+                        <li class="<?php if(Request::is('kelola_lab') ){ echo 'active'; }else{ echo '';} ?>"><a
+                                class="nav-link" href="{{ url('/kelola_lab') }}"><i class="fas fa-person-booth"></i>
+                                <span>Kelola
                                     Laboratorium</span></a></li>
                     </ul>
                     @elseif (Auth::user()->role==3)
@@ -93,9 +100,14 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/peminjaman') }}">Peminjaman Inventaris</a>
+                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{ url('/peminjaman') }}">Pengajuan Inventaris</a>
                                 </li>
-                                <li class="<?php if(Request::is('pengembalian')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
+                                <li class="<?php if(Request::is('pengembalian')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
+                                </li>
+                                <li class="<?php if(Request::is('') ){ echo 'active'; }else{ echo '';} ?>">
+                                    <a class="nav-link" href="{{ url('/') }}">Riwayat Peminjaman</a>
                                 </li>
                             </ul>
                         </li>
@@ -107,10 +119,12 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="index-0.html">Laporan Peminjaman</a>
+                                <li class="active"><a class="nav-link" href="index-0.html">Laporan `Peminjaman`</a>
                                 </li>
-                                <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
-                                <li class=<?php if(Request::is('report_data_user')){ echo 'active'; }else{ echo '';} ?>><a class="nav-link" href="{{url('report_data_user')}}">Data User</a>
+                                <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
+                                <li class=<?php if(Request::is('report_data_user')){ echo 'active'; }else{ echo '';} ?>>
+                                    <a class="nav-link" href="{{url('report_data_user')}}">Data User</a>
                                 </li>
                             </ul>
                         </li>
@@ -129,22 +143,25 @@
             </footer>
         </div>
     </div>
-<!-- General JS Scripts -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/js/stisla.js') }}"></script>
+    <!-- General JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+        integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
-<!-- JS Libraies -->
+    <!-- JS Libraies -->
 
-<!-- Template JS File -->
-<script src="{{ asset('assets/js/scripts.js') }}"></script>
-<script src="{{ asset('assets/js/custom.js') }}"></script>
+    <!-- Template JS File -->
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous">
     </script>
