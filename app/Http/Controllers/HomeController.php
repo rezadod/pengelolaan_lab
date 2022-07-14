@@ -168,7 +168,7 @@ class HomeController extends Controller
                             'a.id as id_peminjaman',
                             'a.jumlah_pinjam',
                             'a.tgl_pinjam',
-                            'a.tgl_pengembalikan',
+                            'a.tgl_pengembalian',
                             'b.id as id_barang',
                             'b.nama_barang',
                             'c.nama_lab',
@@ -203,7 +203,7 @@ class HomeController extends Controller
         DB::table('peminjaman')
             ->where('id', $id_peminjaman)
             ->update([
-                'tgl_pengembalikan' => $date_now,
+                'tgl_pengembalian' => $date_now,
                 'status' => 3
             ]);
         

@@ -88,7 +88,7 @@
                                         <td>{{ $pj->nama_lab }}</td>
                                         <td>{{ $pj->jumlah_pinjam }}</td>
                                         <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalikan)->format('d-m-Y')}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
                                         <td>{{ $pj->deskripsi }}</td>
                                         <td>
                                             @if($pj->status == 3 && Auth::user()->role == 2)
