@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
 
-                        <table class="table">
+                        <table class="table" id="report_peminjaman">
                             <thead>
                                 <tr class="table-success text-center">
                                     <th scope="col">No</th>

@@ -74,7 +74,7 @@
                             </div>
                         </div>
 
-                        <table class="table">
+                        <table class="table" id="verif_peminjaman">
                             <thead>
                                 <tr class="table-success text-center">
                                     <th scope="col">No</th>
