@@ -76,6 +76,9 @@
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
                                 <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
+                                        class="nav-link" href="{{ url('/') }}">Peminjaman Inventaris</a>
+                                </li>
+                                <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{ url('/peminjaman') }}">Verifikasi Peminjaman</a>
                                 </li>
                                 <li class="<?php if(Request::is('pengembalian') ){ echo 'active'; }else{ echo '';} ?>">
@@ -119,7 +122,7 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="index-0.html">Laporan `Peminjaman`</a>
+                                <li class="active"><a class="nav-link" href="index-0.html">Laporan Peminjaman</a>
                                 </li>
                                 <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
