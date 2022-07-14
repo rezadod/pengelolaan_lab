@@ -59,7 +59,7 @@
                             </div>
                         </div>
 
-                        <table class="table">
+                        <table class="table" id="data_inven">
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col">No</th>

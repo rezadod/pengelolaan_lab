@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{asset('/assets/css/components.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
 </head>
 
 <body>
@@ -75,8 +77,9 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="<?php if(Request::is('report_peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
-                                        class="nav-link" href="{{ url('/report_peminjaman') }}">Peminjaman Inventaris</a>
+                                <li
+                                    class="<?php if(Request::is('report_peminjaman')){ echo 'active'; }else{ echo '';} ?>">
+                                    <a class="nav-link" href="{{ url('/report_peminjaman') }}">Peminjaman Inventaris</a>
                                 </li>
                                 <li class="<?php if(Request::is('peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{ url('/peminjaman') }}">Verifikasi Peminjaman</a>
@@ -109,7 +112,8 @@
                                 <li class="<?php if(Request::is('pengembalian')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{ url('/pengembalian') }}">Pengembalian Inventaris</a>
                                 </li>
-                                <li class="<?php if(Request::is('riwayat_peminjaman') ){ echo 'active'; }else{ echo '';} ?>">
+                                <li
+                                    class="<?php if(Request::is('riwayat_peminjaman') ){ echo 'active'; }else{ echo '';} ?>">
                                     <a class="nav-link" href="{{ url('/riwayat_peminjaman') }}">Riwayat Peminjaman</a>
                                 </li>
                             </ul>
@@ -122,7 +126,7 @@
                             <a href="#" class="nav-link has-dropdown"><i
                                     class="far fa-clipboard"></i><span>Dashboard</span></a>
                             <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="index-0.html">Laporan Peminjaman</a>
+                                <li class="<?php if(Request::is('report_peminjaman')){ echo 'active'; }else{ echo '';} ?>"><a class="nav-link" href="{{url('report_peminjaman')}}">Laporan Peminjaman</a>
                                 </li>
                                 <li class="<?php if(Request::is('report_lab')){ echo 'active'; }else{ echo '';} ?>"><a
                                         class="nav-link" href="{{url('report_lab')}}">Data Lab</a>
@@ -213,6 +217,55 @@
 
     <!-- Page Specific JS File -->
     <!-- <script src="/assets/js/page/index.js"></script> -->
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js">
+    </script>
+    <!-- INVENTARIS -->
+    <script>
+        $(document).ready(function () {
+            $('#data_inven').DataTable();
+        });
+    </script>
+    <!-- LAB -->
+    <script>
+        $(document).ready(function () {
+            $('#kelola_lab').DataTable();
+        });
+    </script>
+
+    <!-- PEMINJAMAN -->
+    <script>
+        $(document).ready(function () {
+            $('#report_peminjaman').DataTable();
+        });
+    </script>
+    <!-- PEMINJAMAN -->
+    <script>
+        $(document).ready(function () {
+            $('#verif_peminjaman').DataTable();
+        });
+    </script>
+    <!-- PENGEMBALIAN -->
+    <script>
+        $(document).ready(function () {
+            $('#verif_pengembalian').DataTable();
+        });
+    </script>
+    <!-- RIWAYAT -->
+    <script>
+        $(document).ready(function () {
+            $('#riwayat').DataTable();
+        });
+    </script>
+    <!-- LAB -->
+    <script>
+        $(document).ready(function () {
+            $('#lab').DataTable();
+        });
+    </script>
+
+
+
 </body>
 
 </html>
