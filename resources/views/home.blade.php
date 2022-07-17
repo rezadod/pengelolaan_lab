@@ -23,13 +23,16 @@
                             {{ session('hapus') }}
                         </div>
                         @endif
-                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 text-white" data-toggle="modal"
+                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 mr-2 text-white" data-toggle="modal"
                             data-target="#inputModal">Tambah Barang </a>
+                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
+                            data-target="#">Print</a>
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <form action="{{url('tambah_inventaris')}}" enctype="multipart/form-data" method="POST">
+                                    <form action="{{url('tambah_inventaris')}}" enctype="multipart/form-data"
+                                        method="POST">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit Data Pegawai</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -59,7 +62,7 @@
                             </div>
                         </div>
 
-                        <table class="table" id="data_inven">
+                        <table class="table table-hover" id="data_inven">
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col">No</th>
@@ -77,12 +80,13 @@
                                 <tr>
                                     <td>{{$no++}}</td>
                                     <td>
-                                        <img src="{{asset('/barang/'.$in->foto)}}" alt="" width="100" class="img-fluid" >
+                                        <img src="{{asset('/barang/'.$in->foto)}}" alt="" width="100" class="img-fluid">
                                     </td>
                                     <td>{{$in->nama_barang}}</td>
                                     <td>{{$in->jumlah_barang}}</td>
                                     <td>
-                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')"
+                                            class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
                                     </td>
 
                                 </tr>
@@ -97,29 +101,30 @@
     </section>
 </div>
 <script>
-    function hapus(id_barang, nama_barang){
-            // console.log(nama_barang);
-            var token = '{{ csrf_token() }}';
-            var my_url = "{{url('/delete_inventaris')}}";
-            var formData = {
-                '_token': token,
-                'id_barang': id_barang
-            };
-            if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_barang+ ' ?')){
+    function hapus(id_barang, nama_barang) {
+        // console.log(nama_barang);
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/delete_inventaris')}}";
+        var formData = {
+            '_token': token,
+            'id_barang': id_barang
+        };
+        if (confirm('Apakah Kamu Yakin Akan Menghapus ' + nama_barang + ' ?')) {
             console.log(nama_barang);
-                $.ajax({
-                    method: 'POST',
-                    url: my_url,
-                    data: formData,
-                    success: function(resp){
-                        alert(nama_barang + ' Berhasil Dihapus!');
-                        location.reload();
-                    },
-                    error: function (resp){
-                        console.log(resp);
-                    }
-                });
-            }
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    alert(nama_barang + ' Berhasil Dihapus!');
+                    location.reload();
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+        }
     }
+
 </script>
 @endsection

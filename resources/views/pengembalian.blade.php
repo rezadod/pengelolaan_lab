@@ -9,9 +9,9 @@
                 <div class="card">
                     <div class="card-header">
                         @if(Auth::user()->role == 2)
-                            <h3>Verifikasi Pengembalian</h3>
+                        <h3>Verifikasi Pengembalian</h3>
                         @elseif(Auth::user()->role == 3)
-                            <h3>Report Pengembalian</h3>
+                        <h3>Report Pengembalian</h3>
                         @endif
                     </div>
                     <div class="card-body">
@@ -36,22 +36,22 @@
                                             <label for="">Nama Barang</label>
                                             <select name="" id="" class="form-control">
                                                 @foreach ($nama_barang as $br)
-                                                    <option value="{{$br->nama_barang}}">
-                                                        {{$br->nama_barang}}
-                                                    </option>
+                                                <option value="{{$br->nama_barang}}">
+                                                    {{$br->nama_barang}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             <br>
                                             <label for="">Laboratorium</label>
                                             <select name="" id="" class="form-control">
                                                 @foreach ($lab as $br)
-                                                    <option value="{{$br->nama_lab}}">
-                                                        {{$br->nama_lab}}
-                                                    </option>
+                                                <option value="{{$br->nama_lab}}">
+                                                    {{$br->nama_lab}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             <br>
-                                            
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
@@ -64,40 +64,46 @@
                             </div>
                         </div>
 
-                        <table class="table" id="verif_pengembalian">
+                        <table class="table table-hover" id="verif_pengembalian">
                             <thead>
                                 <tr class="table-success text-center">
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Nama Lab</th>
-                                    <th scope="col">Jumlah Barang Dipinjam</th>
-                                    <th scope="col">Tanggal Peminjaman</th>
-                                    <th scope="col">Tanggal Pengembalian</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th class="text-center text-uppercase" scope="col">No</th>
+                                    <th class="text-center text-uppercase" scope="col">Nama Barang</th>
+                                    <th class="text-center text-uppercase" scope="col">Nama Lab</th>
+                                    <th class="text-center text-uppercase" scope="col">Jumlah Dipinjam</th>
+                                    <th class="text-center text-uppercase" scope="col">Tanggal Peminjaman</th>
+                                    <th class="text-center text-uppercase" scope="col">Tanggal Pengembalian</th>
+                                    <th class="text-center text-uppercase" scope="col">Status</th>
+                                    <th class="text-center text-uppercase" scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
-                                    $no = 1;
+                                $no = 1;
                                 @endphp
                                 @foreach ($peminjaman as $pj)
-                                    <tr class="text-center">
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $pj->nama_barang }}</td>
-                                        <td>{{ $pj->nama_lab }}</td>
-                                        <td>{{ $pj->jumlah_pinjam }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
-                                        <td>{{ $pj->deskripsi }}</td>
-                                        <td>
-                                            @if($pj->status == 3 && Auth::user()->role == 2)
-                                            <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')" class="btn btn-warning text-white"><i class="fas fa-check-circle"></i> Verifikasi</a>
-                                            @elseif($pj->status == 2  && Auth::user()->role == 3)
-                                            <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')" class="btn btn-info text-white"><i class="fas fa-undo-alt"></i> Kembalikan</a>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                <tr class="text-center">
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $pj->nama_barang }}</td>
+                                    <td>{{ $pj->nama_lab }}</td>
+                                    <td>{{ $pj->jumlah_pinjam }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
+                                    <td>
+                                        <span class="badge badge-pill badge-warning">{{ $pj->deskripsi }}</span>
+                                    </td>
+                                    <td>
+                                        @if($pj->status == 3 && Auth::user()->role == 2)
+                                        <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')"
+                                            class="btn btn-warning text-white"><i class="fas fa-check-circle"></i>
+                                            Verifikasi</a>
+                                        @elseif($pj->status == 2 && Auth::user()->role == 3)
+                                        <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')"
+                                            class="badge badge-pill badge-info text-white">
+                                            KEMBALIKAN</a>
+                                        @endif
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -109,57 +115,60 @@
     </section>
 </div>
 <script>
-    function verifikasi(id_peminjaman, nama_barang, id_barang, jumlah_pinjam, nama_lab){
-            // console.log(nama_barang);
-            var token = '{{ csrf_token() }}';
-            var my_url = "{{url('/verifikasi_pengembalian')}}";
-            var formData = {
-                '_token': token,
-                'jumlah_pinjam': jumlah_pinjam,
-                'id_peminjaman': id_peminjaman,
-                'id_barang': id_barang
-            };
-            if(confirm('Verifikasi Pengembalian Berupa ' + nama_barang + ' Sejumlah ' + jumlah_pinjam + ' Buah/Pcs Oleh ' + nama_lab + ' ?')){
+    function verifikasi(id_peminjaman, nama_barang, id_barang, jumlah_pinjam, nama_lab) {
+        // console.log(nama_barang);
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/verifikasi_pengembalian')}}";
+        var formData = {
+            '_token': token,
+            'jumlah_pinjam': jumlah_pinjam,
+            'id_peminjaman': id_peminjaman,
+            'id_barang': id_barang
+        };
+        if (confirm('Verifikasi Pengembalian Berupa ' + nama_barang + ' Sejumlah ' + jumlah_pinjam + ' Buah/Pcs Oleh ' +
+                nama_lab + ' ?')) {
             console.log(nama_barang);
-                $.ajax({
-                    method: 'POST',
-                    url: my_url,
-                    data: formData,
-                    success: function(resp){
-                        alert('Pengembalian Barang Berhasil Diverifikasi!');
-                        location.reload();
-                    },
-                    error: function (resp){
-                        console.log(resp);
-                    }
-                });
-            }
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    alert('Pengembalian Barang Berhasil Diverifikasi!');
+                    location.reload();
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+        }
     }
-    function kembalikan(id_peminjaman, nama_barang, id_barang, jumlah_pinjam){
-            // console.log(nama_barang);
-            var token = '{{ csrf_token() }}';
-            var my_url = "{{url('/kembalikan_barang')}}";
-            var formData = {
-                '_token': token,
-                'jumlah_pinjam': jumlah_pinjam,
-                'id_peminjaman': id_peminjaman,
-                'id_barang': id_barang
-            };
-            if(confirm('Apakah Kamu Yakin Akan Mengembalikan ' +nama_barang+ ' Ke Pengurus Inventaris ?')){
+
+    function kembalikan(id_peminjaman, nama_barang, id_barang, jumlah_pinjam) {
+        // console.log(nama_barang);
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/kembalikan_barang')}}";
+        var formData = {
+            '_token': token,
+            'jumlah_pinjam': jumlah_pinjam,
+            'id_peminjaman': id_peminjaman,
+            'id_barang': id_barang
+        };
+        if (confirm('Apakah Kamu Yakin Akan Mengembalikan ' + nama_barang + ' Ke Pengurus Inventaris ?')) {
             console.log(nama_barang);
-                $.ajax({
-                    method: 'POST',
-                    url: my_url,
-                    data: formData,
-                    success: function(resp){
-                        alert(nama_barang + ' Sudah Dikembalikan!');
-                        location.reload();
-                    },
-                    error: function (resp){
-                        console.log(resp);
-                    }
-                });
-            }
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    alert(nama_barang + ' Sudah Dikembalikan!');
+                    location.reload();
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+        }
     }
+
 </script>
 @endsection
