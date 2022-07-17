@@ -24,7 +24,7 @@
                                 <div class="modal-content">
                                     <form action="{{url('tambah_lab')}}" method="POST">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Data Pegawai</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Lab</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -68,7 +68,10 @@
                                     <td>{{$in->nama_lab}}</td>
                                     <td>{{$in->created_at}}</td>
                                     <td>
-                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')" class="btn btn-sm btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        
+                                        <a onclick="modal_edit({{ $in->id }})"
+                                            class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -81,7 +84,38 @@
         </div>
     </section>
 </div>
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false" id="modal_detail" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="refresh_data"></div>
+        </div>
+    </div>
+</div>
 <script>
+    function modal_edit(id) {
+        var jenis = 'Izin';
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/edit_lab')}}";
+        var formData = {
+            '_token': token,
+            'id': id
+        };
+        $.ajax({
+            method: 'POST',
+            url: my_url,
+            data: formData,
+            // dataType: 'json',
+            success: function (resp) {
+                $('#modal_detail').modal('show');
+                $("#refresh_data").html(resp);
+            },
+            error: function (resp) {
+                console.log(resp);
+            }
+        });
+    };
     function hapus(id_lab, nama_lab){
             // console.log(nama_lab);
             var token = '{{ csrf_token() }}';
