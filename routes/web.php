@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/kelola_lab', [HomeController::class, 'kelola_lab'])->name('kelola_lab');
     Route::post('/tambah_lab', [HomeController::class, 'tambah_lab'])->name('tambah_lab');
     Route::post('/edit_lab', [HomeController::class, 'edit_lab'])->name('edit_lab');
+    Route::post('/save_edit_lab', [HomeController::class, 'save_edit_lab'])->name('save_edit_lab');
     Route::post('/save_lab', [HomeController::class, 'save_lab'])->name('save_lab');
     Route::post('/delete_lab', [HomeController::class, 'delete_lab'])->name('delete_lab');
     

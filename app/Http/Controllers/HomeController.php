@@ -76,6 +76,29 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+
+    public function edit_lab(Request $request)
+    {
+        $id_lab = $request->id;
+
+        $data_lab = DB::table('lab')->select('*')->where('id', $id_lab)->first();
+
+        return view('edit_lab', compact('data_lab'));
+    }
+
+    public function save_edit_lab(Request $request)
+    {
+        // dd($request);
+        $id_lab = $request->id_lab;
+        $nama_lab = $request->nama_lab;
+
+        DB::table('lab')->where('id', $id_lab)
+                ->update([
+                    'nama_lab' => $nama_lab
+                ]);
+
+        return redirect()->back()->with('edit','Data Berhasil Diedit');
+    }
     
     public function delete_lab(Request $request)
     {

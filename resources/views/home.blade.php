@@ -63,9 +63,9 @@
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col">No</th>
+                                    <th scope="col">Foto</th>
                                     <th scope="col">Nama Barang</th>
                                     <th scope="col">Jumlah Barang</th>
-                                    <th scope="col">Terkahir Dirubah</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -76,11 +76,11 @@
                                 @foreach ($inventaris as $in)
                                 <tr>
                                     <td>{{$no++}}</td>
+                                    <td>
+                                        <img src="{{asset('/barang/'.$in->foto)}}" alt="" width="100" class="img-fluid" >
+                                    </td>
                                     <td>{{$in->nama_barang}}</td>
                                     <td>{{$in->jumlah_barang}}</td>
-                                    <td>
-                                        <img src="{{asset('foto/'.$in->foto)}}" alt="" width="200" class="img-fluid" >
-                                    </td>
                                     <td>
                                         <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
                                     </td>
