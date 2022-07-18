@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tambah_inventaris', [HomeController::class, 'tambah_inventaris'])->name('tambah_inventaris');
     Route::post('/edit_inventaris', [HomeController::class, 'edit_inventaris'])->name('edit_inventaris');
     Route::post('/save_inventaris', [HomeController::class, 'save_inventaris'])->name('save_inventaris');
+    Route::post('/hapus_data_inventory', [HomeController::class, 'hapus_data_inventory'])->name('hapus_data_inventory');
     Route::post('/delete_inventaris', [HomeController::class, 'delete_inventaris'])->name('delete_inventaris');
 
     Route::get('/kelola_lab', [HomeController::class, 'kelola_lab'])->name('kelola_lab');

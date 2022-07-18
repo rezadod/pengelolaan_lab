@@ -83,7 +83,9 @@
                                     <th scope="col">Jumlah Barang Dipinjam</th>
                                     <th scope="col">Tanggal Peminjaman</th>
                                     <th scope="col">Status</th>
+                                    @if(Auth::user()->role == 2)
                                     <th scope="col">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,11 +100,11 @@
                                         <td>{{ $pj->jumlah_pinjam }}</td>
                                         <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
                                         <td>{{ $pj->deskripsi }}</td>
+                                        @if($pj->status == 1 && Auth::user()->role == 2)
                                         <td>
-                                            @if($pj->status == 1 && Auth::user()->role == 2)
                                             <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')" class="btn btn-warning text-white"><i class="fas fa-check-circle"></i> Verifikasi</a>
-                                            @endif
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

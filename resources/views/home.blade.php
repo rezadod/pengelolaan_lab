@@ -96,30 +96,78 @@
         </div>
     </section>
 </div>
+
+<!-- Modal Hapus -->
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="inputModalLabel">Hapus Barang</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="bodyHapusModal">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-danger text-white" onclick="validate_hapus()">Hapus</button>
+        </div>
+    </div>
+</div>
+</div>
 <script>
-    function hapus(id_barang, nama_barang){
-            // console.log(nama_barang);
+    function hapus(id){
             var token = '{{ csrf_token() }}';
-            var my_url = "{{url('/delete_inventaris')}}";
-            var formData = {
-                '_token': token,
-                'id_barang': id_barang
-            };
-            if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_barang+ ' ?')){
-            console.log(nama_barang);
-                $.ajax({
-                    method: 'POST',
-                    url: my_url,
-                    data: formData,
-                    success: function(resp){
-                        alert(nama_barang + ' Berhasil Dihapus!');
-                        location.reload();
-                    },
-                    error: function (resp){
-                        console.log(resp);
-                    }
-                });
-            }
+            $.ajax({
+                method: "post",
+                url: "{{url('/hapus_data_inventory')}}",
+                data: {
+                    '_token': token,
+                    'id': id
+                },
+                success: function (resp) {
+                    $('#hapusModal').modal('show');
+                    $("#bodyHapusModal").html(resp);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Upss ada yang error, hubungi tim IT!',
+                    });
+                }
+            });
+        }
+
+
+    function validate_hapus(){
+        $('#hapus-btn-submit').click();
     }
+    // function hapus(id_barang, nama_barang){
+    //         // console.log(nama_barang);
+    //         var token = '{{ csrf_token() }}';
+    //         var my_url = "{{url('/delete_inventaris')}}";
+    //         var formData = {
+    //             '_token': token,
+    //             'id_barang': id_barang
+    //         };
+    //         if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_barang+ ' ?')){
+    //         console.log(nama_barang);
+    //             $.ajax({
+    //                 method: 'POST',
+    //                 url: my_url,
+    //                 data: formData,
+    //                 success: function(resp){
+    //                     alert(nama_barang + ' Berhasil Dihapus!');
+    //                     location.reload();
+    //                 },
+    //                 error: function (resp){
+    //                     console.log(resp);
+    //                 }
+    //             });
+    //         }
+    // }
 </script>
 @endsection
