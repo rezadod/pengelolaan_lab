@@ -29,7 +29,7 @@ class HomeController extends Controller
     // LAB DAN INVENTARIS
     public function kelola_inventaris()
     {
-        $inventaris = DB::table('inventaris')->SELECT('*')->GET();
+        $inventaris = DB::table('inventaris')->SELECT('*')->where('status_barang', 1)->GET();
         return view('home',compact('inventaris'));
     }
     
@@ -51,11 +51,27 @@ class HomeController extends Controller
         ]);
         return redirect()->back()->with('tambah','Data Berhasil Ditambahkan');
     }
+
+    public function hapus_data_inventory(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $id = $request->id;
+
+        $inventory = DB::table('inventaris')
+        ->select('inventaris.*')
+        ->where('inventaris.id', $id)
+        ->first();
+        $status_barang = DB::table('status_barang')
+        ->where('id', '!=', 1)
+        ->get();
+
+        return view('widget.modal_hapus', compact('inventory', 'status_barang'));
+    }
     
     public function delete_inventaris(Request $request)
     {
         $id_barang = $request->id_barang;
-        DB::table('inventaris')->where('id', $id_barang)->delete();
+        DB::table('inventaris')->where('id', $id_barang)->update(['status_barang' => $request->status_barang]);
         // return redirect()->back()->with('hapus','Data Berhasil Dihapus');
         return redirect(url('kelola_inventaris'))->with('hapus','Data Berhasil Dihapus');
     }
@@ -111,7 +127,7 @@ class HomeController extends Controller
     public function peminjaman()
     {  
         $user_peminjam = Auth::user()->id;
-        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->where('status_barang', 1)->GET();
 
         $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
 
