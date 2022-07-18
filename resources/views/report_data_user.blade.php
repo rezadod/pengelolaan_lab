@@ -10,17 +10,19 @@
                     <div class="card-header">
                         <h3>Laporan Data User</h3>
                     </div>
+
                     <div class="card-body">
-                        <table class="table" id="lab">
+                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
+                            data-target="#">Print</a>
+
+                        <table class="table table-hover" id="lab">
                             <thead>
                                 <tr class="table-success">
-                                    <th scope="col">No</th>
-
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Nama </th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Jenis Kelamin</th>
-                                    <th scope="col">Tanggal Ditambahkan</th>
+                                    <th class="text-center text-uppercase" scope="col">No</th>
+                                    <th class="text-left text-uppercase" scope="col">Nama </th>
+                                    <th class="text-left text-uppercase" scope="col">Email</th>
+                                    <th class="text-center text-uppercase" scope="col">Jenis Kelamin</th>
+                                    <th class="text-center text-uppercase" scope="col">Tanggal Ditambahkan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,12 +31,11 @@
                                 @endphp
                                 @foreach ($user as $u)
                                 <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>FOTo</td>
-                                    <td>{{ $u->name }}</td>
-                                    <td>{{ $u->email }}</td>
-                                    <td>{{Str::of($u->jenis_kelamin)->limit(110)->upper() }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($u->updated_at)->format('d-m-Y')}}</td>
+                                    <td class="text-center">{{ $no++ }}</td>
+                                    <td class="text-left">{{ $u->name }}</td>
+                                    <td class="text-left">{{ $u->email }}</td>
+                                    <td class="text-center">{{Str::of($u->jenis_kelamin)->limit(110)->upper() }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($u->updated_at)->format('d-m-Y')}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

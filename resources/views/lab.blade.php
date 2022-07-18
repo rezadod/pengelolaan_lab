@@ -8,7 +8,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Kelola Inventaris</h3>
+                        <h3>Kelola Laboratorium</h3>
                     </div>
                     <div class="card-body">
                         @if (session('tambah'))
@@ -16,8 +16,10 @@
                             {{ session('tambah') }}
                         </div>
                         @endif
-                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 text-white" data-toggle="modal"
+                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 mr-2 text-white" data-toggle="modal"
                             data-target="#inputModal">Tambah Lab </a>
+                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
+                            data-target="#">Print</a>
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -36,7 +38,7 @@
                                             <input type="text" name="nama_lab" id="nama_lab"
                                                 placeholder="Masukkan Nama Lab" class="form-control">
                                             <br>
-                                            
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
@@ -49,7 +51,7 @@
                             </div>
                         </div>
 
-                        <table class="table" id="kelola_lab">
+                        <table class="table table-hover" id="kelola_lab">
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col">No</th>
@@ -68,10 +70,14 @@
                                     <td>{{$in->nama_lab}}</td>
                                     <td>{{$in->created_at}}</td>
                                     <td>
-                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')" class="btn btn-sm btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
-                                        
+
                                         <a onclick="modal_edit({{ $in->id }})"
-                                            class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
+                                            class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i>
+                                            Edit</a>
+                                        <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')"
+                                            class="btn btn-sm btn-danger text-white"><i class="fas fa-trash-alt"></i>
+                                            Hapus</a>
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -116,29 +122,31 @@
             }
         });
     };
-    function hapus(id_lab, nama_lab){
-            // console.log(nama_lab);
-            var token = '{{ csrf_token() }}';
-            var my_url = "{{url('/delete_lab')}}";
-            var formData = {
-                '_token': token,
-                'id_lab': id_lab
-            };
-            if(confirm('Apakah Kamu Yakin Akan Menghapus ' +nama_lab+ ' ?')){
+
+    function hapus(id_lab, nama_lab) {
+        // console.log(nama_lab);
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/delete_lab')}}";
+        var formData = {
+            '_token': token,
+            'id_lab': id_lab
+        };
+        if (confirm('Apakah Kamu Yakin Akan Menghapus ' + nama_lab + ' ?')) {
             console.log(nama_lab);
-                $.ajax({
-                    method: 'POST',
-                    url: my_url,
-                    data: formData,
-                    success: function(resp){
-                        alert(nama_lab + ' Berhasil Dihapus!');
-                        location.reload();
-                    },
-                    error: function (resp){
-                        console.log(resp);
-                    }
-                });
-            }
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    alert(nama_lab + ' Berhasil Dihapus!');
+                    location.reload();
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+        }
     }
+
 </script>
 @endsection
