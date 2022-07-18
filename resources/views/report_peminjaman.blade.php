@@ -13,7 +13,32 @@
                     <div class="card-body">
                         <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
                             data-target="#">Print</a>
-
+                        <div class="row">
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_1">Tanggal Dipinjam 1</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_1" name="tanggal_1">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_2">Tanggal Dipinjam 2</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_2" name="tanggal_2">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <span style="color: white">-</span>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table" id="report_peminjaman">
                             <thead>
                                 <tr class="table-success text-center">
