@@ -180,7 +180,14 @@
     <!-- PEMINJAMAN -->
     <script>
         $(document).ready(function () {
-            $('#report_peminjaman').DataTable();
+            $('#report_peminjaman').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'print', footer: true },
+                    { extend: 'pdf', footer: true },
+                    'copy', 'csv', 'excel'
+                ]
+            });
         });
     </script>
     <!-- PEMINJAMAN -->
