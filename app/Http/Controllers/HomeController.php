@@ -239,10 +239,16 @@ class HomeController extends Controller
                             'd.name',
                             'a.status',
                             'e.deskripsi'
-                        )
-                        ->WHERE('a.peminjam', $user_peminjam)
-                        ->WHEREIN('a.status', [2,3])
-                        ->GET();
+                        );
+                        if(Auth::user()->role == 3){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [2]);
+                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [3]);
+                        }
+                        
+                        $peminjaman = $peminjaman->GET();
         // dd($peminjaman);
         return view('pengembalian',compact('nama_barang','lab','peminjaman'));
     }
@@ -366,7 +372,7 @@ class HomeController extends Controller
                         );
                         if(Auth::user()->role == 1){
                             $peminjaman = $peminjaman->WHEREIN('a.status', [4]);
-                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                            // $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
                         }
                         if(Auth::user()->role == 2){
                             $peminjaman = $peminjaman->WHEREIN('a.status', [2]);
