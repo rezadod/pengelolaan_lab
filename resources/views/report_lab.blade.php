@@ -11,8 +11,7 @@
                         <h3>Laporan Data Laboratorium</h3>
                     </div>
                     <div class="card-body">
-                         <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
-                            data-target="#">Print</a>
+                        
 
                         <table class="table table-hover" id="lab">
                             <thead>

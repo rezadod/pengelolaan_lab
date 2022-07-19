@@ -8,11 +8,9 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Report Peminjaman</h3>
+                        <h3>Report Inventaris Yang Belum Dikembalikan</h3>
                     </div>
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
-                            data-target="#">Print</a>
                         <div class="row">
                             <div class="col-3">
                                 <div>
@@ -35,7 +33,7 @@
                                     <span style="color: white">-</span>
                                 </div>
                                 <div>
-                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
+                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded mb-4" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +45,7 @@
                                     <th class="text-center text-uppercase" scope="col">Nama Lab</th>
                                     <th class="text-center text-uppercase" scope="col">Jumlah Barang Dipinjam</th>
                                     <th class="text-center text-uppercase" scope="col">Tanggal Peminjaman</th>
-                                    <th class="text-center text-uppercase" scope="col">Tanggal Pengembalian</th>
+                                    <th class="text-center text-uppercase" scope="col">Nama Peminjam</th>
                                     <th class="text-center text-uppercase" scope="col">Status</th>
                                 </tr>
                             </thead>
@@ -63,9 +61,7 @@
                                     <td>{{ $pj->jumlah_pinjam }}</td>
                                     <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
                                     <td>
-                                        @if($pj->tgl_pengembalian != '')
-                                        {{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}
-                                        @endif
+                                      {{ $pj->name }}
                                     </td>
                                     <td>
                                         <span class="badge badge-pill badge-info">{{ $pj->deskripsi }}</span>

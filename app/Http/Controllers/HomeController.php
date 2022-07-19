@@ -369,7 +369,7 @@ class HomeController extends Controller
                             $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
                         }
                         if(Auth::user()->role == 2){
-                            $peminjaman = $peminjaman->WHEREIN('a.status', [1,2,3]);
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [2]);
                         }
                         $peminjaman = $peminjaman->GET();
         // dd($peminjaman);

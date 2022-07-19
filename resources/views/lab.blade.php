@@ -17,26 +17,23 @@
                         </div>
                         @endif
                         <a href="#" class="btn btn-success btn-sm mb-4 p-1 mr-2 text-white" data-toggle="modal"
-                            data-target="#inputModal">Tambah Lab </a>
-                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
-                            data-target="#">Print</a>
+                            data-target="#inputModal">Tambah Laboratorium</a>
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <form action="{{url('tambah_lab')}}" method="POST">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Lab</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Laboratorium</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-
                                             @csrf
                                             <label for="">Nama Laboratorium</label>
                                             <input type="text" name="nama_lab" id="nama_lab"
-                                                placeholder="Masukkan Nama Lab" class="form-control">
+                                                placeholder="Masukkan Nama Laboratorium" class="form-control">
                                             <br>
 
                                         </div>
@@ -54,10 +51,10 @@
                         <table class="table table-hover" id="kelola_lab">
                             <thead>
                                 <tr class="table-success">
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Terkahir Dirubah</th>
-                                    <th scope="col">Action</th>
+                                    <th class="text-center text-uppercase" scope="col">No</th>
+                                    <th class="text-center text-uppercase" scope="col">Nama Barang</th>
+                                    <th class="text-center text-uppercase" scope="col">Terkahir Diedit</th>
+                                    <th class="text-center text-uppercase" scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,7 +62,7 @@
                                 $no =1;
                                 @endphp
                                 @foreach ($lab as $in)
-                                <tr>
+                                <tr class="text-center">
                                     <td>{{$no++}}</td>
                                     <td>{{$in->nama_lab}}</td>
                                     <td>{{$in->created_at}}</td>
@@ -73,10 +70,10 @@
 
                                         <a onclick="modal_edit({{ $in->id }})"
                                             class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i>
-                                            Edit</a>
+                                            EDIT</a>
                                         <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_lab }}')"
                                             class="btn btn-sm btn-danger text-white"><i class="fas fa-trash-alt"></i>
-                                            Hapus</a>
+                                            HAPUS</a>
 
                                     </td>
                                 </tr>

@@ -11,7 +11,7 @@
                         @if(Auth::user()->role == 2)
                         <h3>Verifikasi Peminjaman</h3>
                         @elseif(Auth::user()->role == 3)
-                        <h3>Ajukan Peminjaman</h3>
+                        <h3>Ajukan Peminjaman Inventaris</h3>
                         @endif
                     </div>
                     <div class="card-body">
@@ -31,7 +31,7 @@
                                     <form action="{{url('ajukan_peminjaman')}}" method="POST">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman
-                                                Barang GG</h5>
+                                                Inventaris</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
