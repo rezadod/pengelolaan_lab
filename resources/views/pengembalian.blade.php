@@ -11,7 +11,7 @@
                         @if(Auth::user()->role == 2)
                         <h3>Verifikasi Pengembalian</h3>
                         @elseif(Auth::user()->role == 3)
-                        <h3>Report Pengembalian</h3>
+                        <h3>Ajukan Pengembalian Inventaris</h3>
                         @endif
                     </div>
                     <div class="card-body">

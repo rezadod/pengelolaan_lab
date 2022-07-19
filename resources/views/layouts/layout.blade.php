@@ -167,13 +167,27 @@
     <!-- INVENTARIS -->
     <script>
         $(document).ready(function () {
-            $('#data_inven').DataTable();
+            $('#data_inven').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'print', footer: true },
+                    { extend: 'pdf', footer: true },
+                    'copy', 'csv', 'excel'
+                ]
+            });
         });
     </script>
     <!-- LAB -->
     <script>
         $(document).ready(function () {
-            $('#kelola_lab').DataTable();
+            $('#kelola_lab').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'print', footer: true },
+                    { extend: 'pdf', footer: true },
+                    'copy', 'csv', 'excel'
+                ]
+            });
         });
     </script>
 
@@ -205,13 +219,29 @@
     <!-- RIWAYAT -->
     <script>
         $(document).ready(function () {
-            $('#riwayat').DataTable();
+            $('#riwayat').DataTable(
+                {
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'print', footer: true },
+                    { extend: 'pdf', footer: true },
+                    'copy', 'csv', 'excel'
+                ]
+            }
+            );
         });
     </script>
     <!-- LAB -->
     <script>
         $(document).ready(function () {
-            $('#lab').DataTable();
+            $('#lab').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    { extend: 'print', footer: true },
+                    { extend: 'pdf', footer: true },
+                    'copy', 'csv', 'excel'
+                ]
+            });
         });
     </script>
 

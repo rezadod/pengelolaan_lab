@@ -24,9 +24,7 @@
                         </div>
                         @endif
                         <a href="#" class="btn btn-success btn-sm mb-4 p-1 mr-2 text-white" data-toggle="modal"
-                            data-target="#inputModal">Tambah Barang </a>
-                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
-                            data-target="#">Print</a>
+                            data-target="#inputModal">Tambah Barang Inventaris</a>
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -34,7 +32,8 @@
                                     <form action="{{url('tambah_inventaris')}}" enctype="multipart/form-data"
                                         method="POST">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Data Pegawai</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tambah Barang Inventaris
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -48,6 +47,7 @@
                                             <label for="">Jumlah Barang</label>
                                             <input type="text" name="jumlah" id="jumlah"
                                                 placeholder="Masukkan Kuantiti Barang" class="form-control">
+                                            <br>
                                             <label for="">Foto Barang</label>
                                             <input type="file" name="foto" id="foto" class="form-control">
                                         </div>
@@ -65,11 +65,11 @@
                         <table class="table table-hover" id="data_inven">
                             <thead>
                                 <tr class="table-success">
-                                    <th scope="col">No</th>
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Nama Barang</th>
-                                    <th scope="col">Jumlah Barang</th>
-                                    <th scope="col">Action</th>
+                                    <th class="text-center text-uppercase" scope="col">No</th>
+                                    <th class="text-center text-uppercase" scope="col">Foto</th>
+                                    <th class="text-center text-uppercase" scope="col">Nama Barang</th>
+                                    <th class="text-center text-uppercase" scope="col">Jumlah Barang</th>
+                                    <th class="text-center text-uppercase" scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,15 +78,18 @@
                                 @endphp
                                 @foreach ($inventaris as $in)
                                 <tr>
-                                    <td>{{$no++}}</td>
-                                    <td>
+                                    <td class="text-center">{{$no++}}</td>
+                                    <td class="text-center">
                                         <img src="{{asset('/barang/'.$in->foto)}}" alt="" width="100" class="img-fluid">
                                     </td>
-                                    <td>{{$in->nama_barang}}</td>
-                                    <td>{{$in->jumlah_barang}}</td>
-                                    <td>
+                                    <td class="text-center text-uppercase">{{$in->nama_barang}}</td>
+                                    <td class="text-center text-uppercase">{{$in->jumlah_barang}}</td>
+                                    <td class="text-center text-uppercase">
+                                        <a onclick=""
+                                            class="btn btn-warning text-white ml-2"><i class="fas fa-edit"></i> Edit </a>
                                         <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')"
                                             class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        
                                     </td>
 
                                 </tr>
@@ -103,50 +106,50 @@
 
 <!-- Modal Hapus -->
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="inputModalLabel">Hapus Barang</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body" id="bodyHapusModal">
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            <button type="button" class="btn btn-danger text-white" onclick="validate_hapus()">Hapus</button>
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inputModalLabel">Hapus Barang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="bodyHapusModal">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger text-white" onclick="validate_hapus()">Hapus</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
 <script>
-    function hapus(id){
-            var token = '{{ csrf_token() }}';
-            $.ajax({
-                method: "post",
-                url: "{{url('/hapus_data_inventory')}}",
-                data: {
-                    '_token': token,
-                    'id': id
-                },
-                success: function (resp) {
-                    $('#hapusModal').modal('show');
-                    $("#bodyHapusModal").html(resp);
-                },
-                error: function (resp) {
-                    console.log(resp);
-                    Swal.fire({
-                        icon: 'error',
-                        text: 'Upss ada yang error, hubungi tim IT!',
-                    });
-                }
-            });
-        }
+    function hapus(id) {
+        var token = '{{ csrf_token() }}';
+        $.ajax({
+            method: "post",
+            url: "{{url('/hapus_data_inventory')}}",
+            data: {
+                '_token': token,
+                'id': id
+            },
+            success: function (resp) {
+                $('#hapusModal').modal('show');
+                $("#bodyHapusModal").html(resp);
+            },
+            error: function (resp) {
+                console.log(resp);
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Upss ada yang error, hubungi tim IT!',
+                });
+            }
+        });
+    }
 
 
-    function validate_hapus(){
+    function validate_hapus() {
         $('#hapus-btn-submit').click();
     }
     // function hapus(id_barang, nama_barang){
@@ -173,5 +176,6 @@ aria-hidden="true">
     //             });
     //         }
     // }
+
 </script>
 @endsection

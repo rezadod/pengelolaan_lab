@@ -10,11 +10,7 @@
                     <div class="card-header">
                         <h3>Laporan Data User</h3>
                     </div>
-
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary btn-sm mb-4 px-4 py-1 text-white" data-toggle="modal"
-                            data-target="#">Print</a>
-
                         <table class="table table-hover" id="lab">
                             <thead>
                                 <tr class="table-success">
@@ -25,7 +21,7 @@
                                     <th class="text-center text-uppercase" scope="col">Tanggal Ditambahkan</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody> 
                                 @php
                                 $no = 1;
                                 @endphp
@@ -35,7 +31,8 @@
                                     <td class="text-left">{{ $u->name }}</td>
                                     <td class="text-left">{{ $u->email }}</td>
                                     <td class="text-center">{{Str::of($u->jenis_kelamin)->limit(110)->upper() }}</td>
-                                    <td class="text-center">{{ \Carbon\Carbon::parse($u->updated_at)->format('d-m-Y')}}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($u->updated_at)->format('d-m-Y')}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
