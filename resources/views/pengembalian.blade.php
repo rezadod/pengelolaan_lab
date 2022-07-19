@@ -95,8 +95,8 @@
                                     <td>
                                         @if($pj->status == 3 && Auth::user()->role == 2)
                                         <a onclick="verifikasi('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}', '{{ $pj->nama_lab }}')"
-                                            class="btn btn-warning text-white"><i class="fas fa-check-circle"></i>
-                                            Verifikasi</a>
+                                            class="badge badge-pill badge-success text-white">
+                                            VERIFIKASI</a>
                                         @elseif($pj->status == 2 && Auth::user()->role == 3)
                                         <a onclick="kembalikan('{{ $pj->id_peminjaman }}', '{{ $pj->nama_barang }}', '{{ $pj->id_barang }}', '{{ $pj->jumlah_pinjam }}')"
                                             class="badge badge-pill badge-info text-white">

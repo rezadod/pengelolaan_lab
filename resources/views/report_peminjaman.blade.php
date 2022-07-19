@@ -8,7 +8,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3>Report Inventaris Yang Belum Dikembalikan</h3>
+                      @if(Auth::user()->role == 1)
+                        <h3>Laporan Peminjaman Inventaris</h3>
+                        @elseif(Auth::user()->role == 2)
+                        <h3>Report User Yang Belum Mengembalikan</h3>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="row">
