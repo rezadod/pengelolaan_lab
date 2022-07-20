@@ -12,14 +12,14 @@
                 
                 <label for="">Nama Barang</label>
                 <input type="text" name="nama_barang" id="nama_barang"
-                    placeholder="Masukkan Nama Lab" class="form-control" value="{{$inventory->nama_barang}}">
+                    placeholder="Masukkan nama barang" class="form-control" value="{{$inventory->nama_barang}} "readonly>
                 <br>
             </div>
             <div class="form-group row">
                 
                 <label for="">Jumlah Barang</label>
                 <input type="text" name="jumlah_barang" id="jumlah_barang"
-                    placeholder="Masukkan jumlah Lab" class="form-control" value="{{$inventory->jumlah_barang}}">
+                    placeholder="Masukkan total barang" class="form-control" value="{{$inventory->jumlah_barang}}">
                 <br>
             </div>
             <input type="text" name="id" value="{{$inventory->id}}" hidden>

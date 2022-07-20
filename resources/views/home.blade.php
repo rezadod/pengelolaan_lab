@@ -87,7 +87,7 @@
                                     <td class="text-center text-uppercase">
 
                                         <a onclick="modal_edit({{ $in->id }})"
-                                            class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i>
+                                            class="btn btn-warning text-white"><i class="fas fa-edit"></i>
                                             EDIT</a>
                                         <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')"
                                             class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
