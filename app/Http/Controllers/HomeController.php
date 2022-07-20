@@ -32,6 +32,33 @@ class HomeController extends Controller
         $inventaris = DB::table('inventaris')->SELECT('*')->where('status_barang', 1)->GET();
         return view('home',compact('inventaris'));
     }
+
+    public function edit_inventaris(Request $request)
+    {
+        $id = $request->id;
+        $inventory = DB::table('inventaris')
+        ->select('inventaris.*')
+        ->where('inventaris.id', $id)
+        ->first();
+
+        // dd($inventory);
+        return view('edit_inventaris', compact('inventory'));
+    }
+
+    public function save_edit_inventaris(Request $request)
+    {
+        // dd($request);
+        $id = $request->id;
+        $nama_barang  = $request->nama_barang;
+        $jumlah_barang  = $request->jumlah_barang;
+        
+        DB::table('inventaris')->where('id', $id)
+            ->update([
+                'nama_barang' => $nama_barang,
+                'jumlah_barang' => $jumlah_barang
+            ]);
+        return redirect()->back()->with('edit','Data Berhasil Diedit');
+    }
     
     public function tambah_inventaris(Request $request)
     {
