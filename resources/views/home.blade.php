@@ -85,8 +85,10 @@
                                     <td class="text-center text-uppercase">{{$in->nama_barang}}</td>
                                     <td class="text-center text-uppercase">{{$in->jumlah_barang}}</td>
                                     <td class="text-center text-uppercase">
-                                        <a onclick=""
-                                            class="btn btn-warning text-white ml-2"><i class="fas fa-edit"></i> Edit </a>
+
+                                        <a onclick="modal_edit({{ $in->id }})"
+                                            class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i>
+                                            EDIT</a>
                                         <a onclick="hapus('{{ $in->id }}', '{{ $in->nama_barang }}')"
                                             class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
                                         
@@ -102,6 +104,16 @@
             </div>
         </div>
     </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false" id="modal_detail" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div id="refresh_data"></div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Hapus -->
@@ -125,6 +137,28 @@
     </div>
 </div>
 <script>
+    function modal_edit(id) {
+        var jenis = 'Izin';
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/edit_inventaris')}}";
+        var formData = {
+            '_token': token,
+            'id': id
+        };
+        $.ajax({
+            method: 'POST',
+            url: my_url,
+            data: formData,
+            // dataType: 'json',
+            success: function (resp) {
+                $('#modal_detail').modal('show');
+                $("#refresh_data").html(resp);
+            },
+            error: function (resp) {
+                console.log(resp);
+            }
+        });
+    };
     function hapus(id) {
         var token = '{{ csrf_token() }}';
         $.ajax({
