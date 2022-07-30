@@ -186,6 +186,45 @@ class HomeController extends Controller
         // dd($peminjaman);
         return view('peminjaman',compact('nama_barang','lab','peminjaman'));
     }
+    public function peminjaman_tampil(Request $request)
+    {  
+        $tanggal_1 = $request->tanggal_1;
+        $tanggal_2 = $request->tanggal_2;
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->where('status_barang', 1)->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        );
+                        if(Auth::user()->role == 3){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1]);
+                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [1]);
+                        }
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '>=', $tanggal_1);
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '<=', $tanggal_2);
+                        
+                        $peminjaman = $peminjaman->GET();
+        // dd($peminjaman);
+        return view('peminjaman_tampil',compact('nama_barang','lab','peminjaman'));
+    }
 
     public function cek_barang(Request $request)
     {
@@ -278,6 +317,47 @@ class HomeController extends Controller
                         $peminjaman = $peminjaman->GET();
         // dd($peminjaman);
         return view('pengembalian',compact('nama_barang','lab','peminjaman'));
+    }
+
+    public function pengembalian_tampil(Request $request)
+    {  
+        $tanggal_1 = $request->tanggal_1;
+        $tanggal_2 = $request->tanggal_2;
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalian',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        );
+                        if(Auth::user()->role == 3){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [2]);
+                            $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [3]);
+                        }
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '>=', $tanggal_1);
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '<=', $tanggal_2);
+                        
+                        $peminjaman = $peminjaman->GET();
+        // dd($peminjaman);
+        return view('pengembalian_tampil',compact('nama_barang','lab','peminjaman'));
     }
 
     public function kembalikan_barang(Request $request)
@@ -373,6 +453,41 @@ class HomeController extends Controller
         return view('riwayat_peminjaman',compact('nama_barang','lab','peminjaman'));
     }
 
+    public function riwayat_peminjaman_tampil(Request $request)
+    {  
+        $tanggal_1 = $request->tanggal_1;
+        $tanggal_2 = $request->tanggal_2;
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalian',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        )
+                        ->WHERE('a.peminjam', $user_peminjam)
+                        ->WHEREIN('a.status', [4])
+                        ->whereDate('a.tgl_pinjam', '>=', $tanggal_1)
+                        ->whereDate('a.tgl_pinjam', '<=', $tanggal_2)
+                        ->GET();
+        // dd($peminjaman);
+        return view('riwayat_peminjaman_tampil',compact('nama_barang','lab','peminjaman'));
+    }
+
     public function report_peminjaman()
     {  
         $user_peminjam = Auth::user()->id;
@@ -407,5 +522,44 @@ class HomeController extends Controller
                         $peminjaman = $peminjaman->GET();
         // dd($peminjaman);
         return view('report_peminjaman',compact('nama_barang','lab','peminjaman'));
+    }
+    public function report_peminjaman_tampil(Request $request)
+    {  
+        $tanggal_1 = $request->tanggal_1;
+        $tanggal_2 = $request->tanggal_2;
+        $user_peminjam = Auth::user()->id;
+        $nama_barang = DB::table('inventaris')->SELECT('id', 'nama_barang','jumlah_barang')->GET();
+
+        $lab = DB::table('lab')->SELECT('id', 'nama_lab')->GET();
+
+        $peminjaman = DB::table('peminjaman as a')
+                        ->LEFTJOIN('inventaris as b', 'a.nama_barang', 'b.id')
+                        ->LEFTJOIN('lab as c', 'a.lab', 'c.id')
+                        ->LEFTJOIN('users as d', 'a.peminjam', 'd.id')
+                        ->LEFTJOIN('status as e', 'a.status', 'e.id')
+                        ->SELECT(
+                            'a.id as id_peminjaman',
+                            'a.jumlah_pinjam',
+                            'a.tgl_pinjam',
+                            'a.tgl_pengembalian',
+                            'b.id as id_barang',
+                            'b.nama_barang',
+                            'c.nama_lab',
+                            'd.name',
+                            'a.status',
+                            'e.deskripsi'
+                        );
+                        if(Auth::user()->role == 1){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [4]);
+                            // $peminjaman = $peminjaman->WHERE('a.peminjam', $user_peminjam);
+                        }
+                        if(Auth::user()->role == 2){
+                            $peminjaman = $peminjaman->WHEREIN('a.status', [2]);
+                        }
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '>=', $tanggal_1);
+                        $peminjaman = $peminjaman->whereDate('a.tgl_pinjam', '<=', $tanggal_2);
+                        $peminjaman = $peminjaman->GET();
+        // dd($peminjaman);
+        return view('report_peminjaman_tampil',compact('nama_barang','lab','peminjaman'));
     }
 }

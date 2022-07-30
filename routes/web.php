@@ -61,15 +61,19 @@ Route::group(['middleware' => ['auth']], function () {
     
     
     Route::get('/peminjaman', [HomeController::class, 'peminjaman'])->name('peminjaman');
+    Route::post('/peminjaman_tampil', [HomeController::class, 'peminjaman_tampil'])->name('peminjaman_tampil');
     Route::post('/cek_barang', [HomeController::class, 'cek_barang'])->name('cek_barang');
     Route::post('/ajukan_peminjaman', [HomeController::class, 'ajukan_peminjaman'])->name('ajukan_peminjaman');
     Route::get('/pengembalian', [HomeController::class, 'pengembalian'])->name('pengembalian');
+    Route::post('/pengembalian_tampil', [HomeController::class, 'pengembalian_tampil'])->name('pengembalian_tampil');
     Route::get('/report_lab', [HomeController::class, 'report_lab'])->name('report_lab');
     Route::get('/report_data_user', [HomeController::class, 'report_data_user'])->name('report_data_user');
     Route::post('kembalikan_barang', [HomeController::class, 'kembalikan_barang'])->name('kembalikan_barang');
 
     Route::get('/riwayat_peminjaman', [HomeController::class, 'riwayat_peminjaman'])->name('riwayat_peminjaman');
+    Route::post('/riwayat_peminjaman_tampil', [HomeController::class, 'riwayat_peminjaman_tampil'])->name('riwayat_peminjaman_tampil');
     Route::get('/report_peminjaman', [HomeController::class, 'report_peminjaman'])->name('report_peminjaman');
+    Route::post('/report_peminjaman_tampil', [HomeController::class, 'report_peminjaman_tampil'])->name('report_peminjaman_tampil');
 
     // ADMIN
     Route::post('/verifikasi_peminjaman', [HomeController::class, 'verifikasi_peminjaman'])->name('verifikasi_peminjaman');

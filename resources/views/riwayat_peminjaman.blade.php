@@ -11,7 +11,33 @@
                         <h3>Riwayat Peminjaman</h3>
                     </div>
                     <div class="card-body">
-
+                        
+                        <div class="row">
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_1">Tanggal Dipinjam 1</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_1" name="tanggal_1">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_2">Tanggal Dipinjam 2</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_2" name="tanggal_2">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <span style="color: white">-</span>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded mb-4" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table" id="riwayat">
                             <thead>
                                 <tr class="table-success text-center text-uppercase">
@@ -102,6 +128,28 @@
                 }
             });
         }
+    }
+    function cari_data() {
+        var tanggal_1 = $('#tanggal_1').val();
+        var tanggal_2 = $('#tanggal_2').val();
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/riwayat_peminjaman_tampil')}}";
+        var formData = {
+            '_token': token,
+            'tanggal_1': tanggal_1,
+            'tanggal_2': tanggal_2
+        };
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    $('#riwayat').html(resp);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
     }
 
 </script>
