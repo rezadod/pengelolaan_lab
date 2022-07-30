@@ -20,59 +20,31 @@
                             {{ session('tambah') }}
                         </div>
                         @endif
-                        @if(Auth::user()->role == 3)
-                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 text-white" data-toggle="modal"
-                            data-target="#inputModal">Ajukan Peminjaman</a>
-                        @endif
-                        <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
-                            aria-labelledby="inputModal" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form action="{{url('ajukan_peminjaman')}}" method="POST">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman
-                                                Inventaris</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @csrf
-                                            <label for="ajukan_peminjaman">Nama Barang</label>
-                                            <select name="barang" id="barang" class="form-control">
-                                                <option value="">--PILIH BARANG--</option>
-                                                @foreach ($nama_barang as $br)
-                                                <option value="{{$br->id}}">
-                                                    {{$br->nama_barang}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <br>
-                                            <label for="lab">Laboratorium</label>
-                                            <select name="lab" id="lab" class="form-control">
-                                                <option value="">--PILIH LABORATORIUM--</option>
-                                                @foreach ($lab as $br)
-                                                <option value="{{$br->id}}">
-                                                    {{$br->nama_lab}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <br>
-                                            <label for="jumlah">Jumlah Barang Dipinjam</label>
-                                            <input type="number" class="form-control" name="jumlah" id="jumlah">
-                                            <br>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">Batal</button>
-                                            <button id="tombol_input" hidden type="submit"></button>
-                                            <button type="button" onclick="cek_barang()"
-                                                class="btn btn-primary">Simpan</button>
-                                        </div>
-                                    </form>
+                        
+                        <div class="row">
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_1">Tanggal Dipinjam 1</label>
                                 </div>
-
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_1" name="tanggal_1">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_2">Tanggal Dipinjam 2</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_2" name="tanggal_2">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <span style="color: white">-</span>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded mb-4" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
+                                </div>
                             </div>
                         </div>
 
@@ -82,7 +54,7 @@
                                     <th class="text-center text-uppercase" scope="col">No</th>
                                     <th class="text-center text-uppercase" scope="col">Nama Barang</th>
                                     <th class="text-center text-uppercase" scope="col">Nama Lab</th>
-                                    <th class="text-center text-uppercase" scope="col">Jumlah Barang Dipinjam</th>
+                                    <th class="text-center text-uppercase" scope="col">Jumlah Dipinjam</th>
                                     <th class="text-center text-uppercase" scope="col">Tanggal Peminjaman</th>
                                     <th class="text-center text-uppercase" scope="col">Status</th>
                                     <th class="text-center text-uppercase" scope="col">Action</th>
@@ -100,7 +72,7 @@
                                     <td>{{ $pj->jumlah_pinjam }}</td>
                                     <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
                                     <td>
-                                        <span class="badge badge-pill badge-primary">{{ $pj->deskripsi }}</span>
+                                        <span class="badge badge-pill badge-warning">{{ $pj->deskripsi }}</span>
                                     </td>
                                     <td>
                                         @if($pj->status == 1 && Auth::user()->role == 2)
@@ -204,6 +176,31 @@
             });
         }
     }
+
+    
+    function cari_data() {
+        var tanggal_1 = $('#tanggal_1').val();
+        var tanggal_2 = $('#tanggal_2').val();
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/peminjaman_tampil')}}";
+        var formData = {
+            '_token': token,
+            'tanggal_1': tanggal_1,
+            'tanggal_2': tanggal_2
+        };
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    $('#verif_peminjaman').html(resp);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
+    }
+
 
 </script>
 @endsection

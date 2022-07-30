@@ -41,38 +41,38 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="table" id="report_peminjaman">
-                            <thead>
-                                <tr class="table-success text-center">
-                                    <th class="text-center text-uppercase" scope="col">No</th>
-                                    <th class="text-center text-uppercase" scope="col">Nama Barang</th>
-                                    <th class="text-center text-uppercase" scope="col">Nama Lab</th>
-                                    <th class="text-center text-uppercase" scope="col">Jumlah Barang Dipinjam</th>
-                                    <th class="text-center text-uppercase" scope="col">Tanggal Peminjaman</th>
-                                    <th class="text-center text-uppercase" scope="col">Nama Peminjam</th>
-                                    <th class="text-center text-uppercase" scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                $no = 1;
-                                @endphp
-                                @foreach ($peminjaman as $pj)
-                                <tr class="text-center">
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $pj->nama_barang }}</td>
-                                    <td>{{ $pj->nama_lab }}</td>
-                                    <td>{{ $pj->jumlah_pinjam }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                    <td>
-                                      {{ $pj->name }}
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-pill badge-info">{{ $pj->deskripsi }}</span>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                            <table class="table" id="report_peminjaman">
+                                <thead>
+                                    <tr class="table-success text-center">
+                                        <th class="text-center text-uppercase" scope="col">No</th>
+                                        <th class="text-center text-uppercase" scope="col">Nama Barang</th>
+                                        <th class="text-center text-uppercase" scope="col">Nama Lab</th>
+                                        <th class="text-center text-uppercase" scope="col">Jumlah Barang Dipinjam</th>
+                                        <th class="text-center text-uppercase" scope="col">Tanggal Peminjaman</th>
+                                        <th class="text-center text-uppercase" scope="col">Nama Peminjam</th>
+                                        <th class="text-center text-uppercase" scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                    $no = 1;
+                                    @endphp
+                                    @foreach ($peminjaman as $pj)
+                                    <tr class="text-center">
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $pj->nama_barang }}</td>
+                                        <td>{{ $pj->nama_lab }}</td>
+                                        <td>{{ $pj->jumlah_pinjam }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
+                                        <td>
+                                        {{ $pj->name }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-pill badge-info">{{ $pj->deskripsi }}</span>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
 
                     </div>
                 </div>
@@ -134,6 +134,28 @@
                 }
             });
         }
+    }
+    function cari_data() {
+        var tanggal_1 = $('#tanggal_1').val();
+        var tanggal_2 = $('#tanggal_2').val();
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/report_peminjaman_tampil')}}";
+        var formData = {
+            '_token': token,
+            'tanggal_1': tanggal_1,
+            'tanggal_2': tanggal_2
+        };
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    $('#report_peminjaman').html(resp);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
     }
 
 </script>

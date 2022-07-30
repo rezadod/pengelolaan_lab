@@ -20,47 +20,31 @@
                             {{ session('tambah') }}
                         </div>
                         @endif
-                        <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
-                            aria-labelledby="inputModal" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form action="{{url('tambah_lab')}}" method="POST">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edit Data Pegawai</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @csrf
-                                            <label for="">Nama Barang</label>
-                                            <select name="" id="" class="form-control">
-                                                @foreach ($nama_barang as $br)
-                                                <option value="{{$br->nama_barang}}">
-                                                    {{$br->nama_barang}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <br>
-                                            <label for="">Laboratorium</label>
-                                            <select name="" id="" class="form-control">
-                                                @foreach ($lab as $br)
-                                                <option value="{{$br->nama_lab}}">
-                                                    {{$br->nama_lab}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <br>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                        </div>
-                                    </form>
+                        
+                        <div class="row">
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_1">Tanggal Dipinjam 1</label>
                                 </div>
-
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_1" name="tanggal_1">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <label for="tanggal_2">Tanggal Dipinjam 2</label>
+                                </div>
+                                <div>
+                                    <input type="date" class="form-control" id="tanggal_2" name="tanggal_2">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div>
+                                    <span style="color: white">-</span>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary btn-md text-white mt-2 btn-rounded mb-4" onclick="cari_data(2)"><i class="fas fa-search"></i></a>
+                                </div>
                             </div>
                         </div>
 
@@ -88,7 +72,10 @@
                                     <td>{{ $pj->nama_lab }}</td>
                                     <td>{{ $pj->jumlah_pinjam }}</td>
                                     <td>{{ \Carbon\Carbon::parse($pj->tgl_pinjam)->format('d-m-Y')}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
+                                    <td>
+                                        @if($pj->tgl_pengembalian != '')
+                                        {{ \Carbon\Carbon::parse($pj->tgl_pengembalian)->format('d-m-Y')}}</td>
+                                        @endif
                                     <td>
                                         <span class="badge badge-pill badge-warning">{{ $pj->deskripsi }}</span>
                                     </td>
@@ -168,6 +155,28 @@
                 }
             });
         }
+    }
+    function cari_data() {
+        var tanggal_1 = $('#tanggal_1').val();
+        var tanggal_2 = $('#tanggal_2').val();
+        var token = '{{ csrf_token() }}';
+        var my_url = "{{url('/pengembalian_tampil')}}";
+        var formData = {
+            '_token': token,
+            'tanggal_1': tanggal_1,
+            'tanggal_2': tanggal_2
+        };
+            $.ajax({
+                method: 'POST',
+                url: my_url,
+                data: formData,
+                success: function (resp) {
+                    $('#verif_pengembalian').html(resp);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            });
     }
 
 </script>
