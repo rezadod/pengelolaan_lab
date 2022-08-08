@@ -124,6 +124,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="<?php if(Request::is('kelola_inventaris') ){ echo 'active'; }else{ echo '';} ?>"><a
+                                class="nav-link" href="{{ url('/kelola_inventaris') }}"><i class="fas fa-boxes"></i>
+                                <span>Report Inventaris</span></a></li>
                     </ul>
                     @endif
 
