@@ -10,7 +10,11 @@
 
                 <div class="card">
                     <div class="card-header">
+                        @if(Auth::user()->role_id == 2)
                         <h3>Kelola Inventaris</h3>
+                        @else
+                        <h3>Report Inventaris</h3>
+                        @endif
                     </div>
                     <div class="card-body">
                         @if (session('tambah'))
@@ -23,8 +27,10 @@
                             {{ session('hapus') }}
                         </div>
                         @endif
+                        @if(Auth::user()->role_id == 2)
                         <a href="#" class="btn btn-success btn-sm mb-4 p-1 mr-2 text-white" data-toggle="modal"
                             data-target="#inputModal">Tambah Barang Inventaris</a>
+                        @endif
                         <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
                             aria-labelledby="inputModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -69,7 +75,9 @@
                                     <th class="text-center text-uppercase" scope="col">Foto</th>
                                     <th class="text-center text-uppercase" scope="col">Nama Barang</th>
                                     <th class="text-center text-uppercase" scope="col">Jumlah Barang</th>
+                                    @if(Auth::user()->role_id == 2)
                                     <th class="text-center text-uppercase" scope="col">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,6 +92,7 @@
                                     </td>
                                     <td class="text-center text-uppercase">{{$in->nama_barang}}</td>
                                     <td class="text-center text-uppercase">{{$in->jumlah_barang}}</td>
+                                    @if(Auth::user()->role_id == 2)
                                     <td class="text-center text-uppercase">
 
                                         <a onclick="modal_edit({{ $in->id }})"
@@ -93,6 +102,7 @@
                                             class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i> Hapus</a>
                                         
                                     </td>
+                                    @endif
 
                                 </tr>
                                 @endforeach
