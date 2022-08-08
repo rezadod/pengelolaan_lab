@@ -20,7 +20,61 @@
                             {{ session('tambah') }}
                         </div>
                         @endif
-                        
+                         @if(Auth::user()->role == 3)
+                        <a href="#" class="btn btn-success btn-sm mb-4 p-1 text-white" data-toggle="modal"
+                            data-target="#inputModal">Ajukan Peminjaman</a>
+                        @endif
+                        <div class="modal fade" data-backdrop="false" id="inputModal" tabindex="-1" role="dialog"
+                            aria-labelledby="inputModal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="{{url('ajukan_peminjaman')}}" method="POST">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Pengajuan Peminjaman
+                                                Inventaris</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @csrf
+                                            <label for="ajukan_peminjaman">Nama Barang</label>
+                                            <select name="barang" id="barang" class="form-control">
+                                                <option value="">--PILIH BARANG--</option>
+                                                @foreach ($nama_barang as $br)
+                                                <option value="{{$br->id}}">
+                                                    {{$br->nama_barang}}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <br>
+                                            <label for="lab">Laboratorium</label>
+                                            <select name="lab" id="lab" class="form-control">
+                                                <option value="">--PILIH LABORATORIUM--</option>
+                                                @foreach ($lab as $br)
+                                                <option value="{{$br->id}}">
+                                                    {{$br->nama_lab}}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <br>
+                                            <label for="jumlah">Jumlah Barang Dipinjam</label>
+                                            <input type="number" class="form-control" name="jumlah" id="jumlah">
+                                            <br>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">Batal</button>
+                                            <button id="tombol_input" hidden type="submit"></button>
+                                            <button type="button" onclick="cek_barang()"
+                                                class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-3">
                                 <div>
